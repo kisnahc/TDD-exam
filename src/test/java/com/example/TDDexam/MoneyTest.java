@@ -11,13 +11,13 @@ class MoneyTest {
     /**
      * 다중 통화를 지원하는 Money 객체.
      * <p>
-     * 종목	      주	       가격	          합계
-     * Norvartis	 400	 150 CHF	   60000 CHF
-     * IBM	    1000	  25 USD	   25000 USD
-     * 합계        65000 USD
+     * 종목	        주	       가격	         합계
+     * Norvartis     400	 150 CHF	   60000 CHF
+     * IBM	        1000	  25 USD	   25000 USD
+     *                          합계        65000 USD
      * -------------------------------------------------
-     * 기준	변환	   환율
-     * CHF	USD	   1.5
+     * 기준	    변환	    환율
+     * CHF	    USD	    1.5
      * -------------------------------------------------
      * <p>
      * $5 + 10CHF = $10(환율이 2:1일 경우)
@@ -37,21 +37,21 @@ class MoneyTest {
             this.amount = amount;
         }
 
-        void times(int multiplier) {
-            amount *= multiplier;
+        public Dollar times(int multiplier) {
+            return new Dollar(amount * multiplier);
         }
     }
 
     @Test
     public void testMultiplication() throws Exception {
-        //given
         Dollar five = new Dollar(5);
 
-        //when
-        five.times(2);
+        Dollar product = five.times(2);
+        Assertions.assertEquals(10, product.amount);
 
-        //then
-        Assertions.assertEquals(10, five.amount);
+        product = five.times(3);
+        Assertions.assertEquals(15, product.amount);
+        // times 값이 변경되는 문제점 해결.
     }
 
 
