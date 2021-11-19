@@ -1,6 +1,5 @@
 package com.example.TDDexam;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -40,6 +39,11 @@ class MoneyTest {
         public Dollar times(int multiplier) {
             return new Dollar(amount * multiplier);
         }
+
+        public boolean equals(Object o) {
+            Dollar dollar = (Dollar) o;
+            return amount == dollar.amount;
+        }
     }
 
     @Test
@@ -47,12 +51,15 @@ class MoneyTest {
         Dollar five = new Dollar(5);
 
         Dollar product = five.times(2);
-        Assertions.assertEquals(10, product.amount);
+        assertEquals(10, product.amount);
 
         product = five.times(3);
-        Assertions.assertEquals(15, product.amount);
-        // times 값이 변경되는 문제점 해결.
+        assertEquals(15, product.amount);
     }
-
-
+    
+    @Test
+    public void testEquality() throws Exception {
+        assertEquals(new Dollar(5), new Dollar(5));
+        assertNotEquals(new Dollar(5), new Dollar(6));
+    }
 }
