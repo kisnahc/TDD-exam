@@ -28,39 +28,64 @@ class MoneyTest {
      * * 어떤 금액(주가)을 어떤 수(주식의 수)에 곱한 금액을 결과로 얻을 수 있어야 함.
      **/
 
+    /**
+     * Money Class
+     */
+    abstract static class Money {
 
-    static class Dollar extends Money{
+        protected int amount;
+
+        public boolean equals(Object o) {
+            Money money = (Money) o;
+            return amount == money.amount && getClass().equals(money.getClass());
+        }
+
+        static Dollar dollar(int amount) {
+            return new Dollar(amount);
+        }
+
+        abstract Money times(int multiplier);
+    }
+
+    /**
+     * Dollar Class
+     */
+    static class Dollar extends Money {
 
         public Dollar(int amount) {
             this.amount = amount;
         }
 
-        public Dollar times(int multiplier) {
+        public Money times(int multiplier) {
             return new Dollar(amount * multiplier);
         }
     }
 
-    static class Franc extends Money{
+    /**
+     * Franc Class
+     */
+    static class Franc extends Money {
 
         public Franc(int amount) {
             this.amount = amount;
         }
 
-        public Franc times(int multiplier) {
+        public Money times(int multiplier) {
             return new Franc(amount * multiplier);
         }
     }
 
     @Test
     public void testMultiplication() throws Exception {
-        Franc five = new Franc(5);
-        assertEquals(new Franc(10), five.times(2));
-        assertEquals(new Franc(15), five.times(3));
+        Dollar five = Money.dollar(5);
+        assertEquals(new Dollar(10), five.times(2));
+        assertEquals(new Dollar(15), five.times(3));
     }
 
     @Test
     public void testEquality() throws Exception {
         assertEquals(new Dollar(5), new Dollar(5));
         assertNotEquals(new Dollar(5), new Dollar(6));
+        assertNotEquals(new Dollar(10), new Franc(10));
     }
 }
