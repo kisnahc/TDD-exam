@@ -13,7 +13,7 @@ class MoneyTest {
      * 종목	        주	       가격	         합계
      * Norvartis     400	 150 CHF	   60000 CHF
      * IBM	        1000	  25 USD	   25000 USD
-     *                          합계        65000 USD
+     * 합계        65000 USD
      * -------------------------------------------------
      * 기준	    변환	    환율
      * CHF	    USD	    1.5
@@ -30,7 +30,7 @@ class MoneyTest {
 
 
     static class Dollar {
-        int amount;
+        private final int amount;
 
         public Dollar(int amount) {
             this.amount = amount;
@@ -48,18 +48,31 @@ class MoneyTest {
 
     @Test
     public void testMultiplication() throws Exception {
-        Dollar five = new Dollar(5);
-
-        Dollar product = five.times(2);
-        assertEquals(10, product.amount);
-
-        product = five.times(3);
-        assertEquals(15, product.amount);
+        Franc five = new Franc(5);
+        assertEquals(new Franc(10), five.times(2));
+        assertEquals(new Franc(15), five.times(3));
     }
-    
+
     @Test
     public void testEquality() throws Exception {
         assertEquals(new Dollar(5), new Dollar(5));
         assertNotEquals(new Dollar(5), new Dollar(6));
+    }
+
+    static class Franc {
+        private final int amount;
+
+        public Franc(int amount) {
+            this.amount = amount;
+        }
+
+        public Franc times(int multiplier) {
+            return new Franc(amount * multiplier);
+        }
+
+        public boolean equals(Object o) {
+            Franc franc = (Franc) o;
+            return amount == franc.amount;
+        }
     }
 }
