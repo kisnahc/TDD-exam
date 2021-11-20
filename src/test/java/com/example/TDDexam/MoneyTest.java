@@ -29,8 +29,7 @@ class MoneyTest {
      **/
 
 
-    static class Dollar {
-        private final int amount;
+    static class Dollar extends Money{
 
         public Dollar(int amount) {
             this.amount = amount;
@@ -39,10 +38,16 @@ class MoneyTest {
         public Dollar times(int multiplier) {
             return new Dollar(amount * multiplier);
         }
+    }
 
-        public boolean equals(Object o) {
-            Dollar dollar = (Dollar) o;
-            return amount == dollar.amount;
+    static class Franc extends Money{
+
+        public Franc(int amount) {
+            this.amount = amount;
+        }
+
+        public Franc times(int multiplier) {
+            return new Franc(amount * multiplier);
         }
     }
 
@@ -57,22 +62,5 @@ class MoneyTest {
     public void testEquality() throws Exception {
         assertEquals(new Dollar(5), new Dollar(5));
         assertNotEquals(new Dollar(5), new Dollar(6));
-    }
-
-    static class Franc {
-        private final int amount;
-
-        public Franc(int amount) {
-            this.amount = amount;
-        }
-
-        public Franc times(int multiplier) {
-            return new Franc(amount * multiplier);
-        }
-
-        public boolean equals(Object o) {
-            Franc franc = (Franc) o;
-            return amount == franc.amount;
-        }
     }
 }
